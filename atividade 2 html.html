@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang = "PT-BR">
+    <head>
+        <meta charset= "UTF-8">
+        <meta name= "viewport" content="width=device-width, initial-scale=1.0">
+        <title> Atividade </title>
+    </head>
+    <body>
+        <div class = "header">
+            <header>
+                <h1> Material Didatico </h1>
+                <p>Seja bem vindo ao Site!</p>
+            </header>    
+        </div>
+        
+    <div id= main>
+        <h3> Java
+
+        <p> Usando new ()</p>
+        <small> para usar o new, primeiro crie o objeto com o new e depois chame os metodos de instancia</small> 
+        <small> Exemplo: Calculadora calc = new Calculadora();</small>
+        <p> Usando Static</p>
+        <small> funciona como int main, static permite que o 'main' seja o ponto de partida, executado
+        antes de qualquer criação</small>
+        <p>Diferença Double e Float</p>
+        <small>Float: ocupa 32 bits na memoria, aguenta ate 7 casas decimais, usado mais quando tem muitos numeros
+         quebrados e precisar economizar RAM </small>
+        <small>Double: ocupa 64 bits, aguenta ate 15 casa decimais, mais usado em calculos cientificos</small>
+        <p>Perda de Ref</p>
+        <small>depois que usamos o metodo, a variavel fica inacessivel e perdida na heap, sendo coletada pelo garbage collector</small>
+        <p>Stack e Heap</p>
+        <small>Stack:armazena os endereços(referencias) que apontam para o heap</small>
+        <small>Heap:armazena a instacia(dados) que serao apontados pelo stack</small>
+        </h3>
+       
+        <form>
+            <fieldset>
+                <legend>Responda</legend>
+             <label for="nome">Explique como Instanciamos um objeto</label><br>
+             <input type="text" id="nome"name="nome"><br></br>
+
+             <label for="nome">Diferença entre Double e Float</label><br>
+             <input type="text" id="nome"name="nome"><br></br>
+
+              <label>Quantos bits um Double ocupa no RAM</label><br>
+             <input type="checkbox">16<br></br>
+             <input type="checkbox">128<br></br>
+             <input type="checkbox">nenhuma das opções<br></br>
+            
+            <label for="nome">Explique a função do Static</label><br>
+             <input type="text" id="nome"name="nome"><br></br>
+
+             <label>O que acontece quando uma variavel se torna orfa</label><br>
+            <input type="checkbox">continua no mesmo lugar<br></br>
+            <input type="checkbox">Some<br></br>
+            <input type="checkbox">volta ao stack<br></br>
+            <input type="checkbox">coletada pelo garbage collector<br></br>
+
+            <label>Melhor Aula da Facul</label><br>
+            <input list = "aulas" name="aulas">
+                       <datalist id="aulas">
+                       <option value="Cara do Html"></option>
+                        </datalist><br></br>
+                        <input type="submit" value="enviar">
+
+            
+
+             
+    </fieldset>
+    </section>
+    <footer>
+        <h4>Feito</h4>
+        <p>por Eu mesmo😎👍</p>
+    </footer>
+        </form>
+    </body>
+</html>
