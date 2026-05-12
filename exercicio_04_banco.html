@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercício 04 - Banco</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        label { display: block; margin-top: 10px; }
+        select, input { padding: 5px; width: 200px; }
+        #res { margin-top: 15px; font-weight: bold; }
+    </style>
+</head>
+<body>
+    <h3>Simulador Infinity Bank</h3>
+    
+    <label>Valor da Venda:</label>
+    <input type="number" id="v">
+
+    <label>Bandeira:</label>
+    <select id="b">
+        <option value="0.02">Visa (2%)</option>
+        <option value="0.0185">Master (1.85%)</option>
+        <option value="0.03">Elo (3%)</option>
+    </select>
+
+    <label>Parcelas:</label>
+    <input type="number" id="p" value="1">
+
+    <br><br>
+    <button onclick="simular()">Calcular</button>
+
+    <div id="res"></div>
+
+    <script>
+        function simular() {
+            let v = Number(document.getElementById('v').value);
+            let p = Number(document.getElementById('p').value);
+            let b = Number(document.getElementById('b').value);
+
+            let taxaBandeira = v * b;
+            let juros = v * (0.015 * p);
+            let custoMensal = 12.50 * p;
+            let total = v + taxaBandeira + juros + custoMensal;
+            let parcela = total / p;
+
+            document.getElementById('res').innerHTML = 
+                "Taxa Bandeira: R$ " + taxaBandeira.toFixed(2) + "<br>" +
+                "Juros Totais: R$ " + juros.toFixed(2) + "<br>" +
+                "Valor da Parcela: R$ " + parcela.toFixed(2);
+        }
+    </script>
+</body>
+</html>

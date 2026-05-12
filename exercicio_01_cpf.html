@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercício 01 - CPF</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .box { border: 1px solid #ccc; padding: 15px; width: 300px; }
+        input { width: 100%; margin-bottom: 10px; padding: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 8px; cursor: pointer; }
+        #resultado { font-weight: bold; margin-top: 10px; }
+    </style>
+</head>
+<body>
+    <div class="box">
+        <h3>Validador de CPF</h3>
+        <input type="text" id="cpf" placeholder="000.000.000-00">
+        <button onclick="validar()">Validar</button>
+        <div id="resultado"></div>
+    </div>
+
+    <script>
+        function validar() {
+            let cpf = document.getElementById('cpf').value.replace(/\D/g, '');
+            let res = document.getElementById('resultado');
+
+            if (cpf.length !== 11) {
+                res.innerText = "CPF deve ter 11 dígitos";
+                res.style.color = "orange";
+                return;
+            }
+
+            // Cálculo do 1º Dígito
+            let soma = 0;
+            for (let i = 0; i < 9; i++) soma += cpf[i] * (10 - i);
+            let d1 = (soma * 10) % 11;
+            if (d1 >= 10) d1 = 0;
+
+            // Cálculo do 2º Dígito
+            soma = 0;
+            for (let i = 0; i < 10; i++) soma += cpf[i] * (11 - i);
+            let d2 = (soma * 10) % 11;
+            if (d2 >= 10) d2 = 0;
+
+            if (d1 == cpf[9] && d2 == cpf[10]) {
+                res.innerText = "Válido";
+                res.style.color = "green";
+            } else {
+                res.innerText = "Inválido";
+                res.style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>

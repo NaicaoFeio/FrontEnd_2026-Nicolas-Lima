@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <title>Exercício 03 - Média</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        .card { border: 1px solid #000; padding: 20px; width: 300px; }
+        input { display: block; margin-bottom: 10px; width: 100%; }
+    </style>
+</head>
+<body>
+    <div class="card">
+        <h3>Média Escolar</h3>
+        Nome: <input type="text" id="nome">
+        Nota 1: <input type="number" id="n1">
+        Nota 2: <input type="number" id="n2">
+        Nota 3: <input type="number" id="n3">
+        <button onclick="calcular()">Calcular</button>
+        <p id="msg"></p>
+    </div>
+
+    <script>
+        function calcular() {
+            let nome = document.getElementById('nome').value;
+            let n1 = Number(document.getElementById('n1').value);
+            let n2 = Number(document.getElementById('n2').value);
+            let n3 = Number(document.getElementById('n3').value);
+            
+            let media = (n1 + n2 + n3) / 3;
+            let p = document.getElementById('msg');
+
+            if (media >= 7) {
+                p.innerText = nome + " - Aprovado: " + media.toFixed(2);
+                p.style.color = "blue";
+            } else if (media >= 4) {
+                let falta = 10 - media;
+                p.innerText = nome + " - Exame (Falta " + falta.toFixed(2) + " para 10)";
+                p.style.color = "green";
+            } else {
+                p.innerText = nome + " - Reprovado: " + media.toFixed(2);
+                p.style.color = "red";
+            }
+        }
+    </script>
+</body>
+</html>
