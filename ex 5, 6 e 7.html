@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Infinity Bank - Sistema Integrado</title>
+    <style>
+        /* CSS INTEGRADO */
+        :root {
+            --primary: #1a237e;
+            --accent: #00c853;
+            --danger: #ff1744;
+            --warning: #ff9100;
+            --bg: #f5f7fa;
+            --text: #37474f;
+        }
+
+        body {
+            font-family: 'Segoe UI', system-ui, -apple-system, sans-serif;
+            background-color: var(--bg);
+            color: var(--text);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            padding: 40px 20px;
+            margin: 0;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 500px;
+        }
+
+        .card {
+            background: #ffffff;
+            padding: 25px;
+            border-radius: 16px;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            margin-bottom: 30px;
+            border: 1px solid rgba(0,0,0,0.03);
+        }
+
+        h2 {
+            margin-top: 0;
+            font-size: 1.25rem;
+            color: var(--primary);
+            border-bottom: 2px solid #f0f2f5;
+            padding-bottom: 15px;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+
+        .input-group {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 20px 0;
+        }
+
+        input, select {
+            padding: 12px;
+            border: 1px solid #ced4da;
+            border-radius: 8px;
+            outline: none;
+            transition: border-color 0.2s;
+        }
+
+        input:focus { border-color: var(--primary); }
+
+        button {
+            padding: 12px;
+            border: none;
+            border-radius: 8px;
+            background: var(--primary);
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: opacity 0.2s;
+        }
+
+        button:hover { opacity: 0.9; }
+
+        /* Estilos Lista VIP */
+        ul { list-style: none; padding: 0; margin-top: 20px; }
+        
+        li {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 12px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .nome-txt { flex-grow: 1; font-weight: 500; }
+        .concluido { text-decoration: line-through; color: #b0bec5; }
+
+        .btn-box { display: flex; gap: 5px; }
+        .btn-box button { padding: 6px 10px; font-size: 0.75rem; }
+        .btn-edit { background: var(--warning); }
+        .btn-del { background: var(--danger); }
+        .btn-done { background: var(--accent); }
+
+        /* Painel de Resultados */
+        .painel-info {
+            margin-top: 20px;
+            padding: 15px;
+            background: #f8f9fa;
+            border-radius: 8px;
+            font-size: 0.95rem;
+            border-left: 5px solid var(--primary);
+        }
+
+        .hr-mini { border: 0; border-top: 1px solid #ddd; margin: 10px 0; }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        
+        <section class="card">
+            <h2>👥 Lista de Convidados VIP</h2>
+            <div class="input-group">
+                <input type="text" id="guestName" placeholder="Nome completo do convidado">
+                <button onclick="addGuest()">Adicionar à Lista</button>
+            </div>
+            <ul id="guestList"></ul>
+        </section>
+
+        <section class="card">
+            <h2>🎉 Orçamento de Eventos</h2>
+            <div class="input-group">
+                <label>Selecione o Pacote:</label>
+                <select id="eventPackage">
+                    <option value="50">Standard (R$ 50,00/pessoa)</option>
+                    <option value="80">Premium (R$ 80,00/pessoa)</option>
+                    <option value="120">Infinity Deluxe (R$ 120,00/pessoa)</option>
+                </select>
+                <label>Quantidade de Convidados:</label>
+                <input type="number" id="guestCount" min="1" value="1">
+                <button onclick="calculateBudget()">Calcular Orçamento</button>
+            </div>
+            <div id="budgetResult"></div>
+        </section>
+
+        <section class="card">
+            <h2>🛡️ Card Guard - Validador</h2>
+            <div class="input-group">
+                <input type="text" id="cardNumber" maxlength="16" placeholder="Número do cartão (16 dígitos)">
+                <button onclick="analyzeCard()">Analisar Cartão</button>
+            </div>
+            <div id="cardResult"></div>
+        </section>
+
+    </div>
+
+    <script>
+        /* JAVASCRIPT INTEGRADO */
+
+        // --- EXERCÍCIO 05: GESTÃO DE CONVIDADOS ---
+        function addGuest() {
+            const input = document.getElementById('guestName');
+            const name = input.value.trim();
+            
+            if (name === "") return;
+
+            const li = document.createElement('li');
+            li.innerHTML = `
+                <span class="nome-txt">${name}</span>
+                <div class="btn-box">
+                    <button class="btn-done" onclick="toggleDone(this)">Concluir</button>
+                    <button class="btn-edit" onclick="editGuest(this)">Editar</button>
+                    <button class="btn-del" onclick="this.closest('li').remove()">Excluir</button>
+                </div>
+            `;
+            document.getElementById('guestList').appendChild(li);
+            input.value = "";
+        }
+
+        function toggleDone(btn) {
+            const span = btn.closest('li').querySelector('.nome-txt');
+            span.classList.toggle('concluido');
+        }
+
+        function editGuest(btn) {
+            const span = btn.closest('li').querySelector('.nome-txt');
+            const newName = prompt("Editar nome do convidado:", span.innerText);
+            if (newName && newName.trim() !== "") {
+                span.innerText = newName.trim();
+            }
+        }
+
+        // --- EXERCÍCIO 06: CRÉDITO PARA EVENTOS ---
+        function calculateBudget() {
+            const pricePerPerson = parseFloat(document.getElementById('eventPackage').value);
+            const count = parseInt(document.getElementById('guestCount').value);
+            
+            if (isNaN(count) || count <= 0) return;
+
+            const baseCost = pricePerPerson * count;
+            const serviceFee = baseCost * 0.10;
+            let total = baseCost + serviceFee;
+            let discount = 0;
+
+            if (count > 100) {
+                discount = total * 0.05;
+                total -= discount;
+            }
+
+            document.getElementById('budgetResult').innerHTML = `
+                <div class="painel-info">
+                    <p>Custo Bruto: <strong>R$ ${baseCost.toFixed(2)}</strong></p>
+                    <p>Taxa de Serviço (10%): <strong>R$ ${serviceFee.toFixed(2)}</strong></p>
+                    <p>Desconto Fidelidade: <strong>R$ ${discount.toFixed(2)}</strong></p>
+                    <hr class="hr-mini">
+                    <p><strong>Total Final: R$ ${total.toFixed(2)}</strong></p>
+                </div>
+            `;
+        }
+
+        // --- EXERCÍCIO 07: VALIDADOR DE SEGURANÇA ---
+        function analyzeCard() {
+            let num = document.getElementById('cardNumber').value.replace(/\s+/g, '');
+            const display = document.getElementById('cardResult');
+
+            if (num.length < 13 || num.length > 16) {
+                display.innerHTML = '<div class="painel-info" style="border-color: red">❌ Digite entre 13 e 16 dígitos.</div>';
+                return;
+            }
+
+            // Algoritmo de Luhn
+            let sum = 0;
+            let shouldDouble = false;
+            for (let i = num.length - 1; i >= 0; i--) {
+                let digit = parseInt(num.charAt(i));
+                if (shouldDouble) {
+                    digit *= 2;
+                    if (digit > 9) digit -= 9;
+                }
+                sum += digit;
+                shouldDouble = !shouldDouble;
+            }
+
+            const isValid = (sum % 10 === 0);
+            
+            // Lógica de Bandeira Simplificada
+            let brand = "Desconhecida";
+            if (num.startsWith('4')) brand = "Visa";
+            else if (num.startsWith('5')) brand = "Mastercard";
+            else if (num.startsWith('3')) brand = "American Express";
+
+            // Lógica de Setor (MII - Major Industry Identifier)
+            const mii = num[0];
+            let sector = "Outros";
+            if (mii == '3') sector = "Viagens e Entretenimento";
+            if (mii == '4' || mii == '5') sector = "Bancário e Financeiro";
+
+            display.innerHTML = `
+                <div class="painel-info" style="border-color: ${isValid ? 'var(--accent)' : 'var(--danger)'}">
+                    <p>Status: <strong>${isValid ? '✅ Válido' : '❌ Inválido'}</strong></p>
+                    <p>Bandeira: <strong>${brand}</strong></p>
+                    <p>Setor: <strong>${sector}</strong></p>
+                    <p>IIN (8 dígitos): <strong>${num.substring(0, 8)}</strong></p>
+                </div>
+            `;
+        }
+    </script>
+</body>
+</html>
