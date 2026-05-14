@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Infinity Bank - Sistema Integrado</title>
     <style>
-        /* CSS INTEGRADO */
+       
         :root {
             --primary: #1a237e;
             --accent: #00c853;
@@ -81,7 +81,7 @@
 
         button:hover { opacity: 0.9; }
 
-        /* Estilos Lista VIP */
+       
         ul { list-style: none; padding: 0; margin-top: 20px; }
         
         li {
@@ -101,7 +101,7 @@
         .btn-del { background: var(--danger); }
         .btn-done { background: var(--accent); }
 
-        /* Painel de Resultados */
+      
         .painel-info {
             margin-top: 20px;
             padding: 15px;
@@ -155,9 +155,9 @@
     </div>
 
     <script>
-        /* JAVASCRIPT INTEGRADO */
+     
 
-        // --- EXERCÍCIO 05: GESTÃO DE CONVIDADOS ---
+       
         function addGuest() {
             const input = document.getElementById('guestName');
             const name = input.value.trim();
@@ -190,7 +190,7 @@
             }
         }
 
-        // --- EXERCÍCIO 06: CRÉDITO PARA EVENTOS ---
+     
         function calculateBudget() {
             const pricePerPerson = parseFloat(document.getElementById('eventPackage').value);
             const count = parseInt(document.getElementById('guestCount').value);
@@ -218,7 +218,7 @@
             `;
         }
 
-        // --- EXERCÍCIO 07: VALIDADOR DE SEGURANÇA ---
+     
         function analyzeCard() {
             let num = document.getElementById('cardNumber').value.replace(/\s+/g, '');
             const display = document.getElementById('cardResult');
@@ -228,7 +228,7 @@
                 return;
             }
 
-            // Algoritmo de Luhn
+        
             let sum = 0;
             let shouldDouble = false;
             for (let i = num.length - 1; i >= 0; i--) {
@@ -243,13 +243,12 @@
 
             const isValid = (sum % 10 === 0);
             
-            // Lógica de Bandeira Simplificada
+      
             let brand = "Desconhecida";
             if (num.startsWith('4')) brand = "Visa";
             else if (num.startsWith('5')) brand = "Mastercard";
             else if (num.startsWith('3')) brand = "American Express";
 
-            // Lógica de Setor (MII - Major Industry Identifier)
             const mii = num[0];
             let sector = "Outros";
             if (mii == '3') sector = "Viagens e Entretenimento";
