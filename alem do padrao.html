@@ -1,0 +1,586 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Além do Padrão - Alimentos Industriais Conscientes</title>
+    <style>
+        /* --- Configurações Gerais e Resets --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        :root {
+            --cor-primaria: #2E7D32;
+            --cor-secundaria: #EF6C00;  
+            --cor-escura: #263238;      
+            --cor-clara: #F4F6F4;       
+            --cor-branca: #FFFFFF;
+            --cor-alerta: #C62828;     
+        }
+
+        body {
+            background-color: var(--cor-clara);
+            color: var(--cor-escura);
+            line-height: 1.6;
+            padding-bottom: 60px;
+        }
+
+        .container {
+            width: 90%;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        header {
+            background-color: var(--cor-branca);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        header .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: var(--cor-primaria);
+        }
+
+        .logo span {
+            color: var(--cor-secundaria);
+        }
+
+        nav a {
+            text-decoration: none;
+            color: var(--cor-escura);
+            margin-left: 20px;
+            font-weight: 500;
+            transition: color 0.3s;
+        }
+
+        nav a:hover {
+            color: var(--cor-primaria);
+        }
+
+        .hero {
+            background: linear-gradient(rgba(0,0,0,0.6), rgba(0,0,0,0.6)), url('https://images.unsplash.com/photo-1509440159596-0249088772ff?auto=format&fit=crop&q=80&w=1200') no-repeat center center/cover;
+            color: var(--cor-branca);
+            padding: 100px 0;
+            text-align: center;
+        }
+
+        .hero h1 {
+            font-size: 42px;
+            margin-bottom: 20px;
+        }
+
+        .hero p {
+            font-size: 20px;
+            max-width: 700px;
+            margin: 0 auto 30px auto;
+        }
+
+        .btn {
+            display: inline-block;
+            background-color: var(--cor-secundaria);
+            color: var(--cor-branca);
+            padding: 12px 30px;
+            text-decoration: none;
+            border-radius: 5px;
+            font-weight: bold;
+            transition: background 0.3s, transform 0.2s;
+            cursor: pointer;
+            border: none;
+        }
+
+        .btn:hover {
+            background-color: #D84315;
+            transform: scale(1.05);
+        }
+
+        .sobre, .produtos {
+            padding: 80px 0;
+        }
+
+        .bg-branco {
+            background-color: var(--cor-branca);
+        }
+
+        .bg-claro {
+            background-color: var(--cor-clara);
+        }
+
+        .secao-titulo {
+            text-align: center;
+            font-size: 32px;
+            color: var(--cor-primaria);
+            margin-bottom: 10px;
+        }
+
+        .secao-subtitulo {
+            text-align: center;
+            color: #616161;
+            margin-bottom: 40px;
+            font-size: 16px;
+        }
+
+        .grid-layout {
+            display: flex;
+            justify-content: center;
+            gap: 30px;
+            flex-wrap: wrap;
+        }
+
+        .card {
+            flex: 1;
+            min-width: 280px;
+            max-width: 360px;
+            background-color: var(--cor-clara);
+            padding: 30px;
+            border-radius: 8px;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+        }
+
+        .card h3 {
+            margin-bottom: 15px;
+            color: var(--cor-primaria);
+        }
+
+        .card-produto {
+            flex: 1;
+            min-width: 260px;
+            max-width: 280px;
+            background-color: var(--cor-branca);
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+            text-align: center;
+            transition: transform 0.3s;
+            position: relative;
+        }
+
+        .card-produto:hover {
+            transform: translateY(-5px);
+        }
+
+        .tag-desconto {
+            background-color: var(--cor-secundaria);
+            color: var(--cor-branca);
+            font-size: 12px;
+            font-weight: bold;
+            padding: 5px 10px;
+            position: absolute;
+            top: 10px;
+            left: 10px;
+            border-radius: 3px;
+            z-index: 10;
+        }
+
+        .produto-img {
+            width: 100%;
+            height: 180px;
+            object-fit: cover;
+        }
+
+        .produto-info {
+            padding: 20px;
+        }
+
+        .produto-info h3 {
+            font-size: 18px;
+            margin-bottom: 5px;
+            color: var(--cor-escura);
+        }
+
+        .produto-motivo {
+            font-size: 11px;
+            color: #EF6C00;
+            font-weight: 600;
+            background-color: #FFF3E0;
+            padding: 3px 8px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            display: inline-block;
+        }
+
+        .preco-antigo {
+            text-decoration: line-through;
+            color: var(--cor-alerta);
+            font-size: 14px;
+            margin-right: 8px;
+        }
+
+        .preco-novo {
+            color: var(--cor-primaria);
+            font-size: 20px;
+            font-weight: bold;
+        }
+
+        .btn-produto {
+            display: block;
+            background-color: var(--cor-primaria);
+            color: var(--cor-branca);
+            text-decoration: none;
+            padding: 10px;
+            margin-top: 15px;
+            border-radius: 5px;
+            font-weight: 500;
+            font-size: 14px;
+            transition: background 0.3s;
+            cursor: pointer;
+            border: none;
+            width: 100%;
+        }
+
+        .btn-produto:hover {
+            background-color: #1B5E20;
+        }
+
+        .carrinho-flutuante {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--cor-escura);
+            color: var(--cor-branca);
+            padding: 15px 0;
+            box-shadow: 0 -3px 10px rgba(0,0,0,0.2);
+            z-index: 999;
+            display: none;
+        }
+
+        .carrinho-flutuante .container {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            flex-wrap: wrap;
+            gap: 10px;
+        }
+
+        .carrinho-info span {
+            margin-right: 20px;
+            font-size: 16px;
+        }
+
+        .economia-destaque {
+            color: #81C784;
+            font-weight: bold;
+        }
+
+        .btn-carrinho {
+            background-color: var(--cor-secundaria);
+            color: var(--cor-branca);
+            border: none;
+            padding: 8px 20px;
+            border-radius: 4px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.3s;
+        }
+
+        .btn-carrinho:hover {
+            background-color: #D84315;
+        }
+
+        .btn-limpar {
+            background: transparent;
+            color: #CFD8DC;
+            border: 1px solid #CFD8DC;
+            padding: 8px 15px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+
+        .btn-limpar:hover {
+            color: var(--cor-branca);
+            border-color: var(--cor-branca);
+        }
+
+        .cta-cadastro {
+            padding: 60px 0;
+            background-color: var(--cor-primaria);
+            color: var(--cor-branca);
+            text-align: center;
+        }
+
+        .cta-cadastro h2 { margin-bottom: 15px; }
+        .cta-cadastro p { margin-bottom: 25px; font-size: 18px; }
+
+        .form-cadastro {
+            display: flex;
+            justify-content: center;
+            gap: 10px;
+            flex-wrap: wrap;
+            max-width: 500px;
+            margin: 0 auto;
+        }
+
+        .form-cadastro input[type="email"] {
+            padding: 12px;
+            border: none;
+            border-radius: 5px;
+            flex: 1;
+            min-width: 250px;
+            font-size: 16px;
+        }
+
+        footer {
+            background-color: #1c2427;
+            color: #B0BEC5;
+            text-align: center;
+            padding: 20px 0;
+            font-size: 14px;
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 { font-size: 32px; }
+            header .container { flex-direction: column; gap: 15px; }
+            nav a { margin: 0 10px; }
+            .carrinho-flutuante .container { flex-direction: column; text-align: center; }
+        }
+    </style>
+</head>
+<body>
+
+    <header>
+        <div class="container">
+            <div class="logo">Além do <span>Padrão</span></div>
+            <nav>
+                <a href="#proposito">Nosso Propósito</a>
+                <a href="#como-funciona">Como Funciona</a>
+                <a href="#produtos">Produtos</a>
+                <a href="#cadastro">Fazer Parte</a>
+            </nav>
+        </div>
+    </header>
+
+    <section class="hero">
+        <div class="container">
+            <h1>Contribua para evitar o Desperdício de Alimentos</h1>
+            <p>Compre diversos produtos fora do padrão de mercado por até 70% de desconto e tenha acesso a produtos de qualidade a preços acessíveis.</p>
+            <a href="#produtos" class="btn">Ver Lotes de Hoje</a>
+        </div>
+    </section>
+
+    <section id="proposito" class="sobre bg-branco">
+        <div class="container">
+            <h2 class="secao-titulo">Por que escolher o Além do Padrão?</h2>
+            <div class="grid-layout">
+                <div class="card">
+                    <h3>Sabor e Rigor Industrial</h3>
+                    <p>Os alimentos podem estar um pouco mais escuros ou levemente quebrados, mas a receita, a marca e a segurança são exatamente as mesmas da gôndola.</p>
+                </div>
+                <div class="card">
+                    <h3>Preço de Fábrica Real</h3>
+                    <p>Operamos sob demanda e direto da indústria (estoque zero), eliminando intermediários para repassar os melhores descontos para você.</p>
+                </div>
+                <div class="card">
+                    <h3>Desperdício Zero</h3>
+                    <p>Evitamos que toneladas de produtos de indústrias sejam descartados e virem lixo industrial apenas por conta de sua estética.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="como-funciona" class="sobre bg-claro">
+        <div class="container">
+            <h2 class="secao-titulo">Como Funciona o Nosso Modelo</h2>
+            <div class="grid-layout">
+                <div class="card" style="background-color: var(--cor-branca);">
+                    <h3 style="color: var(--cor-secundaria);">1. Triagem na Fábrica</h3>
+                    <p>As indústrias parceiras separam os alimentos que não estão dentro do padrão estético, passam por uma análise de qualidade e são embalados.</p>
+                </div>
+                <div class="card" style="background-color: var(--cor-branca);">
+                    <h3 style="color: var(--cor-secundaria);">2. Oferta na Plataforma</h3>
+                    <p>Nós atualizamos os lotes disponíveis diariamente em nosso sistema, garantindo um modelo ágil de vendas.</p>
+                </div>
+                <div class="card" style="background-color: var(--cor-branca);">
+                    <h3 style="color: var(--cor-secundaria);">3. Compra Consciente</h3>
+                    <p>Você monta a sua cesta com diversos alimentos, garante até 60% de economia e os recebe na sua casa.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="produtos" class="produtos bg-branco">
+        <div class="container">
+            <h2 class="secao-titulo">Lotes de alimentos de Hoje</h2>
+            <p class="secao-subtitulo">Produtos industriais seguros, saborosos e com alto valor calórico/nutricional.</p>
+            
+            <div class="grid-layout">
+                <div class="card-produto">
+                    <span class="tag-desconto">-55%</span>
+                    <img src="https://images.unsplash.com/photo-1549931319-a545dcf3bc73?auto=format&fit=crop&q=80&w=400" alt="Pão de Forma" class="produto-img">
+                    <div class="produto-info">
+                        <h3>Pão de Forma Integral (500g)</h3>
+                        <span class="produto-motivo">Casca levemente mais escura</span>
+                        <br>
+                        <span class="preco-antigo">R$ 9,80</span>
+                        <span class="preco-novo">R$ 4,40</span>
+                        <button class="btn-produto" onclick="adicionarAoCarrinho('Pão de Forma Integral (500g)', 4.40, 9.80)">Adicionar ao carrinho</button>
+                    </div>
+                </div>
+
+                <div class="card-produto">
+                    <span class="tag-desconto">-60%</span>
+                    <img src="https://images.unsplash.com/photo-1606313564200-e75d5e30476c?auto=format&fit=crop&q=80&w=400" alt="Bolo de Chocolate" class="produto-img">
+                    <div class="produto-info">
+                        <h3>Bolo de Chocolate Recheado</h3>
+                        <span class="produto-motivo">Pequena quebra ao desenformar</span>
+                        <br>
+                        <span class="preco-antigo">R$ 18,50</span>
+                        <span class="preco-novo">R$ 7,40</span>
+                        <button class="btn-produto" onclick="adicionarAoCarrinho('Bolo de Chocolate Recheado', 7.40, 18.50)">Adicionar ao carrinho</button>
+                    </div>
+                </div>
+
+                <div class="card-produto">
+                    <span class="tag-desconto">-45%</span>
+                    <img src="https://images.unsplash.com/photo-1558961363-fa8fdf82db35?auto=format&fit=crop&q=80&w=400" alt="Biscoitos" class="produto-img">
+                    <div class="produto-info">
+                        <h3>Biscoito Amanteigado (Pacote)</h3>
+                        <span class="produto-motivo">Unidades quebradas no pacote</span>
+                        <br>
+                        <span class="preco-antigo">R$ 7,90</span>
+                        <span class="preco-novo">R$ 4,34</span>
+                        <button class="btn-produto" onclick="adicionarAoCarrinho('Biscoito Amanteigado (Pacote)', 4.34, 7.90)">Adicionar ao carrinho</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <section id="cadastro" class="cta-cadastro">
+        <div class="container">
+            <h2>Quer receber alertas de novas sobras de fábrica?</h2>
+            <p>Deixe seu e-mail e seja alertado assim que os lotes de alimentos estiverem disponíveis na fábrica.</p>
+            <form class="form-cadastro" onsubmit="alert('E-mail cadastrado com sucesso!'); return false;">
+                <input type="email" placeholder="Digite seu e-mail" required>
+                <button type="submit" class="btn">Cadastrar</button>
+            </form>
+        </div>
+    </section>
+
+    <div id="barra-carrinho" class="carrinho-flutuante">
+        <div class="container">
+            <div class="carrinho-info">
+                <span id="carrinho-qtd">Itens Separados: 0</span>
+                <span>Total Lote: <strong id="carrinho-total">R$ 0,00</strong></span>
+                <span>Economia no Bolso: <span id="carrinho-economia" class="economia-destaque">R$ 0,00</span>! 🌍</span>
+            </div>
+            <div style="display: flex; gap: 10px; align-items: center;">
+                <button class="btn-limpar" onclick="limparCarrinho()">Limpar</button>
+                <button class="btn-carrinho" onclick="finalizarPedido()">Pedir via WhatsApp</button>
+            </div>
+        </div>
+    </div>
+
+    <footer>
+        <div class="container">
+            <p>&copy; 2026 Além do Padrão. Transformando o desperdício industrial em oportunidade de consumo.</p>
+        </div>
+    </footer>
+
+    <script>
+        let carrinho = [];
+
+        window.onload = function() {
+            const salvo = localStorage.getItem('carrinho_alem_do_padrao_ind');
+            if (salvo) {
+                carrinho = JSON.parse(salvo);
+                atualizarInterfaceCarrinho();
+            }
+        };
+
+        function adicionarAoCarrinho(nome, precoNovo, precoAntigo) {
+            const itemExistente = carrinho.find(item => item.nome === nome);
+            if (itemExistente) {
+                itemExistente.qtd += 1;
+            } else {
+                carrinho.push({
+                    nome: nome,
+                    preco: parseFloat(precoNovo),
+                    original: parseFloat(precoAntigo),
+                    qtd: 1
+                });
+            }
+            localStorage.setItem('carrinho_alem_do_padrao_ind', JSON.stringify(carrinho));
+            atualizarInterfaceCarrinho();
+        }
+
+        function atualizarInterfaceCarrinho() {
+            const barra = document.getElementById('barra-carrinho');
+            const txtQtd = document.getElementById('carrinho-qtd');
+            const txtTotal = document.getElementById('carrinho-total');
+            const txtEconomia = document.getElementById('carrinho-economia');
+
+            if (carrinho.length === 0) {
+                barra.style.display = 'none';
+                return;
+            }
+
+            barra.style.display = 'block';
+
+            let totalItens = 0;
+            let valorTotal = 0;
+            let valorOriginalTotal = 0;
+
+            carrinho.forEach(item => {
+                totalItens += item.qtd;
+                valorTotal += (item.preco * item.qtd);
+                valorOriginalTotal += (item.original * item.qtd);
+            });
+
+            let economiaTotal = valorOriginalTotal - valorTotal;
+
+            txtQtd.innerText = `Itens Separados: ${totalItens}`;
+            txtTotal.innerText = `R$ ${valorTotal.toFixed(2).replace('.', ',')}`;
+            txtEconomia.innerText = `R$ ${economiaTotal.toFixed(2).replace('.', ',')}`;
+        }
+
+        function limparCarrinho() {
+            carrinho = [];
+            localStorage.removeItem('carrinho_alem_do_padrao_ind');
+            atualizarInterfaceCarrinho();
+        }
+
+        function finalizarPedido() {
+            if (carrinho.length === 0) return;
+
+            let numeroWhatsapp = "44997214827"; // Número do Bot da Além do Padrão
+            let texto = "👋 Olá! Gostaria de fechar este pedido de panificados industriais da Além do Padrão:\n\n";
+            
+            let valorTotal = 0;
+            let valorOriginalTotal = 0;
+
+            carrinho.forEach(item => {
+                texto += `• *${item.qtd}x* ${item.nome} - R$ ${(item.preco * item.qtd).toFixed(2)}\n`;
+                valorTotal += (item.preco * item.qtd);
+                valorOriginalTotal += (item.original * item.qtd);
+            });
+
+            let economia = valorOriginalTotal - valorTotal;
+
+            texto += `\n💰 *Valor com Desconto:* R$ ${valorTotal.toFixed(2)}`;
+            texto += `\n🌍 *Economia Direta:* R$ ${economia.toFixed(2)}`;
+            texto += `\n\n_Tenho interesse em receber esses itens na minha casa!_`;
+
+            let textoCodificado = encodeURIComponent(texto);
+            window.open(`https://api.whatsapp.com/send?phone=${numeroWhatsapp}&text=${textoCodificado}`, '_blank');
+        }
+    </script>
+</body>
+</html>
